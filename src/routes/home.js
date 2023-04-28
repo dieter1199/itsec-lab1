@@ -2,12 +2,6 @@ var express = require('express');
 var router = express.Router();
 const db = require('../helpers/db');
 
-/* GET home page. */
-router.get('/', function(request, response, next) {
-    response.render('index', {
-      loggedIn: false
-    });
-});
 
 router.post("/home", (req, res) => {
   task = req.body.task

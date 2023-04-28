@@ -43,3 +43,25 @@ First steps (run all commands in the container using the terminal in VS Code; if
   - Run the command `npm run start`
   - VS Code should automatically forward the web server on the container to your machine (usually port 3000. If it does not work, look it up in VS Code)
   - You can access your website on `localhost:3000` (or another port as mentioned above)
+
+
+CREATE TABLE IF NOT EXISTS User (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  username varchar(50) NOT NULL,
+  password varchar(255) NOT NULL,
+  email varchar(100) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `User` (`id`, `username`, `password`, `email`) VALUES (1, 'test', 'test', 'test@test.com');
+
+
+CREATE TABLE IF NOT EXISTS Todo (
+  task_id int(11) NOT NULL AUTO_INCREMENT,
+  task varchar(255) NOT NULL,
+  status varchar(255),
+  user_id int(11),
+  PRIMARY KEY (task_id)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `Todo` (`task_id`, `task`, `status`, `user_id`) VALUES (1, 'hello', 'ongoing', '1');

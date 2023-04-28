@@ -2,37 +2,36 @@ const express = require('express');
 const db = require('../helpers/db');
 const router = express.Router();
 
-/**
- * Login and logout routes/handlers.
- * The functions in this file are based on the examples from https://expressjs.com/en/resources/middleware/session.html
- */
 
-/**
- * Login function
- */
-router.post('/login', express.urlencoded({ extended: false }), function (req, res) {
-  // login logic to validate req.body.user and req.body.pass
-  // would be implemented here. for this example any combo works
-
-  // TODO: You can insert an SQL query to validate the credentials here
-
-  // regenerate the session, which is good practice to help
-  // guard against forms of session fixation
-  req.session.regenerate(function (err) {
-    if (err) next(err);
-
-    // store user information in session, typically a user id
-    // also update the access to the user object in `isAuthenticated` and `logout` functions when chaning it here
-    req.session.user = 'user identifier (for example id or email from database)';
-
-    // save the session before redirection to ensure page
-    // load does not happen before session is saved
-    req.session.save(function (err) {
-      if (err) return next(err);
-      res.redirect('/');
-    });
-  });
+router.post('/login', function(request, response) {
+	// Capture the input fields
+	let username = request.body.username;
+	let password = request.body.password;
+	// Ensure the input fields exists and are not empty
+	if (username && password) {
+		// Execute SQL query that'll select the account from the database based on the specified username and password
+		db.connection.query('SELECT * FROM User WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+			// If there is an issue with the query, output the error
+			if (error) throw error;
+			// If the account exists
+			if (results.length > 0) {
+				// Authenticate the user
+				request.session.loggedin = true;
+				request.session.username = username;
+        request.session.user_id = results[0].id;
+				// Redirect to home page
+				response.redirect('/home');
+			} else {
+				response.send('Incorrect Username and/or Password!');
+			}			
+			response.end();
+		});
+	} else {
+		response.send('Please enter Username and Password!');
+		response.end();
+	}
 });
+
 
 /**
  * Logout function
