@@ -1,45 +1,21 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../helpers/db');
+const session = require('../helpers/session')
 
-/* GET home page. */
-router.get('/', function(request, response, next) {
+router.get('/', async function(request, response, next) {
+
+  // check if user is already logged in
+  var user = await session.checkSessionId(request.cookies.sessionid);
+  if (user == undefined) {  
     response.render('index', {
-      loggedIn: false
-    });
-});
-
-router.post("/home", (req, res) => {
-  task = req.body.task
-  s = "ongoing"
-  let query = "INSERT INTO Todo (task, status, user_id) VALUES ('" + task + "', '" + s + "', '" + req.session.user_id + "');"
-
-  db.connection.query(query, function (err, result) {
-      if (err) throw err;
-      res.redirect('/home')
+    loggedIn: false 
   });
+  } else {
+    request.session.user_id = user.id;
+    response.redirect('/home');
+  }
 
-})
-
-router.get("/home/:id", (req, res) =>{
-  let query = "DELETE FROM Todo WHERE task_id='" + req.params.id + "';"
-  db.connection.query(query, function (err, result) {
-    if (err) throw err;
-    res.redirect('/home')
-  });
-})
-
-router.get('/home', function(request, response, next) {
-  let query = "SELECT * FROM Todo WHERE user_id='" + request.session.user_id + "';"
-  let items = []
-  db.connection.query(query, function (err, result) {
-    if (err) throw err;
-    items = result
-    response.render('index', {
-      loggedIn: request.session.loggedin,
-      items: items
-    });
-  });
 });
 
 

@@ -19,6 +19,7 @@ var app = express();
 // Initialize module for user session management (https://expressjs.com/en/resources/middleware/session.html)
 app.use(session({
   secret: 'thisisnotsecure',
+  cookie: {},
   resave: false,
   saveUninitialized: true
 }));
