@@ -1,38 +1,34 @@
 {{#if loggedIn}}
 <div class="container">
     <h1>To Do App</h1>
-    <h2>Enter your tasks here</h2>
+    <!--<h2>Enter your tasks here</h2>-->
     <form method="POST" action="/home">
-        <input type="text" name="task" id="task" required>
+        <input type="text" name="task" id="task" placeholder="What needs to be done?" required>
         <button type="submit" id="submit">Add Task</button>
     </form>
     <div id="task_container">
         <ul>
             {{#each items}}
-            <li>{{task}}</li>
-            <a href="/home/{{task_id}}"><i class="fa fa-trash"></i></a>
+            <li>{{task}} <a class="delete-button" href="/home/{{task_id}}"><i class="fa fa-trash"></i></a></li>
             {{/each}}
         </ul>
     </div>
-    <a href="/logout">Logout</a>
+    <a class="logout-link" href="/logout">Logout</a>
 </div>
 {{else}}
-<!-- Very simple login form as example (this is no vulerability, but only a template you can work with!) -->
+<!-- Very simple login form as example (this is no vulnerability, but only a template you can work with!) -->
 <div class="login">
-    <h1>Login</h1>
-    <form action="/login" method="post">
-        <label for="username">
-            <!-- font awesome icon -->
-            <i class="fas fa-user"></i>
-        </label>
-        <input type="text" name="username" placeholder="Username" id="username" required>
-        <label for="password">
-            <i class="fas fa-lock"></i>
-        </label>
-        <input type="password" name="password" placeholder="Password" id="password" required>
-        <input type="submit" value="Login">
-    </form>
+  <h1>Login</h1>
+  <form action="/login" method="post">
+    <div class="input-with-icon">
+      <i class="fas fa-user"></i>
+      <input type="text" name="username" placeholder="Username" id="username" required>
+    </div>
+    <div class="input-with-icon">
+      <i class="fas fa-lock"></i>
+      <input type="password" name="password" placeholder="Password" id="password" required>
+    </div>
+    <input type="submit" value="Login">
+  </form>
 </div>
 {{/if}}
-
-
