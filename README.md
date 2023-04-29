@@ -1,7 +1,7 @@
 # JavaScript Express Web Server
 
 ## General
-
+test commit
 This template consists of a NodeJS web server running a sample web application based on the [Express](https://expressjs.com/) framework, the HTML templating engine [Handlebars](https://handlebarsjs.com/), and the module [express-session](https://expressjs.com/en/resources/middleware/session.html) for the management of user sessions.
 
 The MySQL user is root
